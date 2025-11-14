@@ -1,1 +1,86 @@
+ex.04
 
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User writes a note and clicks "Save"
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    server-->>browser: 302 redirect to /notes
+    deactivate server
+
+    Note right of browser: The browser reloads the /notes page
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: JavaScript file
+    deactivate server
+
+    Note right of browser: The JS code fetches updated notes JSON
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: Updated JSON data including the new note
+    deactivate server
+
+    Note right of browser: Browser renders the updated notes list
+
+ex.05
+
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: JavaScript file
+    deactivate server
+
+    Note right of browser: The JS code runs and requests the existing notes
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: JSON data of notes
+    deactivate server
+
+    Note right of browser: The browser renders notes dynamically without reloading the page
+
+ex.06
+
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User writes a note and clicks "Save"
+
+    Note right of browser: JavaScript creates the note object and adds it to the notes list in memory
+    Note right of browser: The page updates immediately without reloading
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    server-->>browser: 201 Created (confirmation)
+    deactivate server
+
+    Note right of browser: The note is already visible on the page because JS updated the DOM
